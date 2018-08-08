@@ -1,0 +1,15 @@
+Configure miss: bison3
+Configure miss: whether need to declare optind
+Configure miss: mhash.h usability
+Configure miss: mhash.h presence
+Configure miss: mhash.h
+Configure miss: mhash
+Configure miss: gcrypt.h usability
+Configure miss: gcrypt.h presence
+Configure miss: gcrypt.h
+Configure miss: gcrypt
+Configure miss: uuid-config
+Configure miss: ossp libuuid
+Configure miss: UUID in libc
+Configure miss: ceil, floor and round in default libs
+Configure miss: using memory signing

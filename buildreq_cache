@@ -1,0 +1,8 @@
+0.9.33
+mpfr-dev
+libgcrypt-dev
+gmp-dev
+libxml2-dev
+flex
+bison
+pcre-dev
