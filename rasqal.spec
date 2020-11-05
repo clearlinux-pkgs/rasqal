@@ -6,17 +6,17 @@
 #
 Name     : rasqal
 Version  : 0.9.33
-Release  : 3
+Release  : 4
 URL      : http://download.librdf.org/source/rasqal-0.9.33.tar.gz
 Source0  : http://download.librdf.org/source/rasqal-0.9.33.tar.gz
-Source99 : http://download.librdf.org/source/rasqal-0.9.33.tar.gz.asc
+Source1  : http://download.librdf.org/source/rasqal-0.9.33.tar.gz.asc
 Summary  : Rasqal RDF Query parsing and execution library
 Group    : Development/Tools
 License  : Apache-2.0 GPL-2.0 LGPL-2.1
-Requires: rasqal-bin
-Requires: rasqal-lib
-Requires: rasqal-license
-Requires: rasqal-man
+Requires: rasqal-bin = %{version}-%{release}
+Requires: rasqal-lib = %{version}-%{release}
+Requires: rasqal-license = %{version}-%{release}
+Requires: rasqal-man = %{version}-%{release}
 BuildRequires : bison
 BuildRequires : docbook-xml
 BuildRequires : flex
@@ -28,6 +28,7 @@ BuildRequires : libxml2-dev
 BuildRequires : libxslt-bin
 BuildRequires : mpfr-dev
 BuildRequires : pcre-dev
+BuildRequires : pkgconfig(glib-2.0)
 BuildRequires : pkgconfig(raptor2)
 BuildRequires : pkgconfig(uuid)
 
@@ -49,8 +50,7 @@ and Turtle / N3.
 %package bin
 Summary: bin components for the rasqal package.
 Group: Binaries
-Requires: rasqal-license
-Requires: rasqal-man
+Requires: rasqal-license = %{version}-%{release}
 
 %description bin
 bin components for the rasqal package.
@@ -59,9 +59,10 @@ bin components for the rasqal package.
 %package dev
 Summary: dev components for the rasqal package.
 Group: Development
-Requires: rasqal-lib
-Requires: rasqal-bin
-Provides: rasqal-devel
+Requires: rasqal-lib = %{version}-%{release}
+Requires: rasqal-bin = %{version}-%{release}
+Provides: rasqal-devel = %{version}-%{release}
+Requires: rasqal = %{version}-%{release}
 
 %description dev
 dev components for the rasqal package.
@@ -70,7 +71,7 @@ dev components for the rasqal package.
 %package doc
 Summary: doc components for the rasqal package.
 Group: Documentation
-Requires: rasqal-man
+Requires: rasqal-man = %{version}-%{release}
 
 %description doc
 doc components for the rasqal package.
@@ -79,7 +80,7 @@ doc components for the rasqal package.
 %package lib
 Summary: lib components for the rasqal package.
 Group: Libraries
-Requires: rasqal-license
+Requires: rasqal-license = %{version}-%{release}
 
 %description lib
 lib components for the rasqal package.
@@ -103,32 +104,39 @@ man components for the rasqal package.
 
 %prep
 %setup -q -n rasqal-0.9.33
+cd %{_builddir}/rasqal-0.9.33
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-export LANG=C
-export SOURCE_DATE_EPOCH=1533754391
+export LANG=C.UTF-8
+export SOURCE_DATE_EPOCH=1604603812
+export GCC_IGNORE_WERROR=1
+export CFLAGS="$CFLAGS -fno-lto "
+export FCFLAGS="$FFLAGS -fno-lto "
+export FFLAGS="$FFLAGS -fno-lto "
+export CXXFLAGS="$CXXFLAGS -fno-lto "
 %configure --disable-static
 make  %{?_smp_mflags}
 
 %check
-export LANG=C
+export LANG=C.UTF-8
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
-make VERBOSE=1 V=1 %{?_smp_mflags} check
+make %{?_smp_mflags} check
 
 %install
-export SOURCE_DATE_EPOCH=1533754391
+export SOURCE_DATE_EPOCH=1604603812
 rm -rf %{buildroot}
-mkdir -p %{buildroot}/usr/share/doc/rasqal
-cp COPYING %{buildroot}/usr/share/doc/rasqal/COPYING
-cp COPYING.LIB %{buildroot}/usr/share/doc/rasqal/COPYING.LIB
-cp LICENSE-2.0.txt %{buildroot}/usr/share/doc/rasqal/LICENSE-2.0.txt
-cp libsv/COPYING %{buildroot}/usr/share/doc/rasqal/libsv_COPYING
-cp libsv/COPYING.LIB %{buildroot}/usr/share/doc/rasqal/libsv_COPYING.LIB
+mkdir -p %{buildroot}/usr/share/package-licenses/rasqal
+cp %{_builddir}/rasqal-0.9.33/COPYING %{buildroot}/usr/share/package-licenses/rasqal/06877624ea5c77efe3b7e39b0f909eda6e25a4ec
+cp %{_builddir}/rasqal-0.9.33/COPYING.LIB %{buildroot}/usr/share/package-licenses/rasqal/9a1929f4700d2407c70b507b3b2aaf6226a9543c
+cp %{_builddir}/rasqal-0.9.33/LICENSE-2.0.txt %{buildroot}/usr/share/package-licenses/rasqal/2b8b815229aa8a61e483fb4ba0588b8b6c491890
+cp %{_builddir}/rasqal-0.9.33/LICENSE.txt %{buildroot}/usr/share/package-licenses/rasqal/89baadf9446e80bdf4e487b1e58970e7e49348b5
+cp %{_builddir}/rasqal-0.9.33/libsv/COPYING %{buildroot}/usr/share/package-licenses/rasqal/68c94ffc34f8ad2d7bfae3f5a6b996409211c1b1
+cp %{_builddir}/rasqal-0.9.33/libsv/COPYING.LIB %{buildroot}/usr/share/package-licenses/rasqal/cf756914ec51f52f9c121be247bfda232dc6afd2
 %make_install
 
 %files
@@ -197,14 +205,15 @@ cp libsv/COPYING.LIB %{buildroot}/usr/share/doc/rasqal/libsv_COPYING.LIB
 /usr/lib64/librasqal.so.3.0.0
 
 %files license
-%defattr(-,root,root,-)
-/usr/share/doc/rasqal/COPYING
-/usr/share/doc/rasqal/COPYING.LIB
-/usr/share/doc/rasqal/LICENSE-2.0.txt
-/usr/share/doc/rasqal/libsv_COPYING
-/usr/share/doc/rasqal/libsv_COPYING.LIB
+%defattr(0644,root,root,0755)
+/usr/share/package-licenses/rasqal/06877624ea5c77efe3b7e39b0f909eda6e25a4ec
+/usr/share/package-licenses/rasqal/2b8b815229aa8a61e483fb4ba0588b8b6c491890
+/usr/share/package-licenses/rasqal/68c94ffc34f8ad2d7bfae3f5a6b996409211c1b1
+/usr/share/package-licenses/rasqal/89baadf9446e80bdf4e487b1e58970e7e49348b5
+/usr/share/package-licenses/rasqal/9a1929f4700d2407c70b507b3b2aaf6226a9543c
+/usr/share/package-licenses/rasqal/cf756914ec51f52f9c121be247bfda232dc6afd2
 
 %files man
-%defattr(-,root,root,-)
+%defattr(0644,root,root,0755)
 /usr/share/man/man1/rasqal-config.1
 /usr/share/man/man1/roqet.1

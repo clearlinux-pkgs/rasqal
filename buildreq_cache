@@ -1,8 +1,9 @@
 0.9.33
-mpfr-dev
-libgcrypt-dev
-gmp-dev
-libxml2-dev
-flex
 bison
+flex
+gmp-dev
+libgcrypt-dev
+libxml2-dev
+mpfr-dev
 pcre-dev
+pkgconfig(glib-2.0)

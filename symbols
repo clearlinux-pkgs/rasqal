@@ -34,8 +34,6 @@ librasqal.so.3:rasqal_dataset_term_iterator_next
 librasqal.so.3:rasqal_dataset_triples_iterator_get
 librasqal.so.3:rasqal_dataset_triples_iterator_next
 librasqal.so.3:rasqal_digest_buffer
-librasqal.so.3:rasqal_digest_md5_buffer
-librasqal.so.3:rasqal_digest_sha1_buffer
 librasqal.so.3:rasqal_double_approximately_compare
 librasqal.so.3:rasqal_double_approximately_equal
 librasqal.so.3:rasqal_engine_new_rowsort_map
