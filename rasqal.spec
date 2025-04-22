@@ -6,7 +6,7 @@
 #
 Name     : rasqal
 Version  : 0.9.33
-Release  : 4
+Release  : 5
 URL      : http://download.librdf.org/source/rasqal-0.9.33.tar.gz
 Source0  : http://download.librdf.org/source/rasqal-0.9.33.tar.gz
 Source1  : http://download.librdf.org/source/rasqal-0.9.33.tar.gz.asc
